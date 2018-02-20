@@ -13,9 +13,13 @@ J = 0;
 % Instructions: Compute the cost of a particular choice of theta
 %               You should set J to the cost.
 
+% Using the vectorized version of the cost function for more efficient 
+% computation. The cost function is the same as the single variable version.
 
+% Using the same function as computeCost.m
+% The equation also works for multivariate instances.
 
-
+J = sum(((X * theta) - y) .^ 2) / (2 * m);
 
 % =========================================================================
 

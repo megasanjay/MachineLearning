@@ -26,10 +26,13 @@ sigma = zeros(1, size(X, 2));
 % Hint: You might find the 'mean' and 'std' functions useful.
 %       
 
+% I'm looping trhough each feature and finidng the mean and 
+% standard deviation for each one as well. 
+
 for i=1:(size(X,2))
   mu(1, i) = mean(X(:,i));
   sigma(1, i) = std(X(:,i));
-  X_norm = (X - mu(1, i)) / sigma(1, i);
+  X_norm(:,i) = (X(:,i) - mu(1, i)) ./ sigma(1, i);
 end
 
 % ============================================================

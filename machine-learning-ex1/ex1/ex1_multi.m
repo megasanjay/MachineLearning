@@ -44,7 +44,7 @@ fprintf('First 10 examples from the dataset: \n');
 fprintf(' x = [%.0f %.0f], y = %.0f \n', [X(1:10,:) y(1:10,:)]');
 
 fprintf('Program paused. Press enter to continue.\n');
-pause;
+%pause;
 
 % Scale features and set them to zero mean
 fprintf('Normalizing Features ...\n');
@@ -82,6 +82,7 @@ X = [ones(m, 1) X];
 fprintf('Running gradient descent ...\n');
 
 % Choose some alpha value
+%alpha = 0.1;
 alpha = 0.01;
 num_iters = 400;
 
@@ -91,6 +92,7 @@ theta = zeros(3, 1);
 
 % Plot the convergence graph
 figure;
+fprintf('Plotting Cost for alpha = 0.1 ...\n');
 plot(1:numel(J_history), J_history, '-b', 'LineWidth', 2);
 xlabel('Number of iterations');
 ylabel('Cost J');
@@ -100,20 +102,50 @@ fprintf('Theta computed from gradient descent: \n');
 fprintf(' %f \n', theta);
 fprintf('\n');
 
+% Trying out different learning rates
+hold on; 
+thetaTemp = zeros(3, 1);
+[thetaTemp, J_history] = gradientDescentMulti(X, y, thetaTemp, 0.03, num_iters);
+fprintf('Plotting Cost for alpha = 0.03 ...\n');
+plot(1:numel(J_history), J_history, '-r', 'LineWidth', 2);
+
+thetaTemp = zeros(3, 1);
+[thetaTemp, J_history] = gradientDescentMulti(X, y, thetaTemp, 0.01, num_iters);
+fprintf('Plotting Cost for alpha = 0.01 ...\n');
+plot(1:numel(J_history), J_history, '-k', 'LineWidth', 2);
+
+thetaTemp = zeros(3, 1);
+[theta, J_history] = gradientDescentMulti(X, y, thetaTemp, 0.003, num_iters);
+fprintf('Plotting Cost for alpha = 0.003 ...\n');
+plot(1:numel(J_history), J_history, '-g', 'LineWidth', 2);
+
+thetaTemp = zeros(3, 1);
+[thetaTemp, J_history] = gradientDescentMulti(X, y, thetaTemp, 0.001, num_iters);
+fprintf('Plotting Cost for alpha = 0.001 ...\n\n');
+plot(1:numel(J_history), J_history, '-c', 'LineWidth', 2);
+
+legend('alpha = 0.1', 'alpha = 0.03', 'alpha = 0.01', 'alpha = 0.003', 'alpha = 0.001');
+
+
 % Estimate the price of a 1650 sq-ft, 3 br house
 % ====================== YOUR CODE HERE ======================
 % Recall that the first column of X is all-ones. Thus, it does
 % not need to be normalized.
-price = 0; % You should change this
 
+% By using a vector to hold the input data we can use matrix
+% multiplication rules to get the answer more efficiently
+
+request = [1650, 3];
+request = (request - mu) ./ sigma;
+request = [1, request];
+price = theta * request ; % You should change this
 
 % ============================================================
 
-fprintf(['Predicted price of a 1650 sq-ft, 3 br house ' ...
-         '(using gradient descent):\n $%f\n'], price);
+fprintf(['Predicted price of the 1650 sq-ft, 3 br house ' ...
+         '(using gradient descent):\n $%f\n'], price(1, 1));
 
 fprintf('Program paused. Press enter to continue.\n');
-pause;
 
 %% ================ Part 3: Normal Equations ================
 
@@ -149,11 +181,12 @@ fprintf('\n');
 
 % Estimate the price of a 1650 sq-ft, 3 br house
 % ====================== YOUR CODE HERE ======================
-price = 0; % You should change this
 
+% Feature scaling not needed when using normal equations.
 
+request = [1, 1650, 3];
+price = theta * request ; % You should change this
 % ============================================================
 
 fprintf(['Predicted price of a 1650 sq-ft, 3 br house ' ...
-         '(using normal equations):\n $%f\n'], price);
-
+         '(using normal equations):\n $%f\n'], price(1, 1));

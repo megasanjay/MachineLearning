@@ -184,8 +184,7 @@ fprintf('\n');
 
 % Feature scaling not needed when using normal equations.
 
-request = [1, 1650, 3];
-price = theta * request ; % You should change this
+price = theta * [1, 1650, 3] ; % You should change this
 % ============================================================
 
 fprintf(['Predicted price of a 1650 sq-ft, 3 br house ' ...
